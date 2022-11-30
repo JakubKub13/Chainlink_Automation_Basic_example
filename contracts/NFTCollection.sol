@@ -251,6 +251,10 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         emit BatchRevealFinished(startIndex, endIndex);
     }
 
+    function fulfillRandomWords(uint256, uint256[] memory randomWords) internal override {
+        _fulfillRandomnessForMetadata(randomWords[0]);
+    }
+
 
 
 }
