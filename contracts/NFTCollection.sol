@@ -204,6 +204,22 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         return string(result);
     }
 
+    function shouldReveal() public view override returns (bool) {
+        uint256 unrevealedCount = totalSupply() - s_revealedCount;
+        if(unrevealedCount == 0) {
+            return false;
+        }
+        bool batchSizeCriteria = false;
+        if(revealedBatchSize > 0 && unrevealedCount >= revealedBatchSize) {
+            batchSizeCriteria = true;
+        }
+        bool intervalCriteria = false;
+        if(revealInterval > 0 && block.timestamp - s_lastRevealed > revealInterval) {
+            intervalCriteria = true;
+        }
+        return(batchSizeCriteria || intervalCriteria);
+    }
+
 
 
 }
