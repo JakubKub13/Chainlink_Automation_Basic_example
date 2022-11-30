@@ -38,5 +38,28 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
     event BatchRevealReqested(uint256 requestId);
     event BatchRevealFinished(uint256 startIndex, uint256 endIndex);
 
+    constructor(
+        string memory _name,
+        string memory _symbol,
+        uint256 _maxSupply,
+        uint256 _mintConst,
+        uint256 _revealBatchSize,
+        uint256 _revealInterval,
+        address _vrfCoordinatorV2,
+        uint64 _vrfSubscriptionId, 
+        bytes32 _vrfGasLane,
+        uint32 _vrfCallbackGasLimit
+    ) ERC721(_name, _symbol) VRFConsumerBaseV2(_vrfCoordinatorV2) {
+        MAX_SUPPLY = _maxSupply;
+        MINT_COST = _mintConst;
+        VRF_COORDINATOR_V2 = VRFCoordinatorV2Interface(_vrfCoordinatorV2);
+        VRF_SUBSCRIPTION_ID = _vrfSubscriptionId;
+        VRF_GAS_LANE = _vrfGasLane;
+        VRF_CALLBACK_GAS_LIMIT = _vrfCallbackGasLimit;
+        revealedBatchSize = _revealBatchSize;
+        revealInterval = _revealInterval;
+    }
+
     
+
 }
