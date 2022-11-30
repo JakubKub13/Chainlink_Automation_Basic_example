@@ -125,6 +125,31 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         }
     }
 
+    function _formatTokenURI(string memory imageURI)
+        internal
+        pure
+        returns (string memory)
+    {
+        return
+            string(
+                abi.encodePacked(
+                    "data:application/json;base64,",
+                    Base64.encode(
+                        bytes(
+                            abi.encodePacked(
+                                '{',
+                                    '"name":"NFT", ',
+                                    '"description":"Batch-revealed NFT!", ',
+                                    '"attributes":"", ',
+                                    '"image":"', imageURI, '"',
+                                '}'
+                            )
+                        )
+                    )
+                )
+            );
+    }
+
 
 
 }

@@ -1,1 +1,1 @@
-NFT reveal utilizing Chainlink automation and Chainlink VRF
+Learning to work with chainlink automation and chainlink vrf with revealing NFT contract
