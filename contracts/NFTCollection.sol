@@ -108,6 +108,14 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         return (batch.startIndex, batch.endIndex, batch.entropy);
     }
 
+    function mintConst() public view override returns (uint256) {
+        return MINT_COST;
+    }
+
+    function maxSupply() external view override returns (uint256) {
+        return MAX_SUPPLY;
+    }
+
 
 
 }
