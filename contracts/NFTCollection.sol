@@ -116,6 +116,15 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         return MAX_SUPPLY;
     }
 
+    function _getTokenRandomness(uint256 tokenId) internal view returns (uint256 randomness, bool metadataCleared) {
+        for(uint256 i = 0; i < metadatas.length; i++) {
+            if(tokenId >= metadatas[i].startIndex && tokenId < metadatas[i].endIndex) {
+                randomness = uint256(keccak256(abi.encode(metadatas[i].entropy, tokenId)));
+                metadataCleared = true;
+            }
+        }
+    }
+
 
 
 }
