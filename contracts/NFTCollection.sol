@@ -271,8 +271,7 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         revealInterval = _revealInterval;
     }
 
-
-
-
-
+    function supportsInterface(bytes4 interfaceId) public view override returns (bool) {
+        return super.supportsInterface(interfaceId) || interfaceId == type(INFTCollection).interfaceId;     
+    }
 }
