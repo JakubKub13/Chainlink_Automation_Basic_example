@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.4;
+pragma solidity 0.8.17;
 
 interface INFTCollection {
     function mint(uint256 _amount) external payable;
