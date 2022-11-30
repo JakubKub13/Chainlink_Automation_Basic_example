@@ -70,5 +70,12 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         }
     }
 
+    function withdrawProceeds() external override onlyOwner {
+        (bool sent, ) = payable(owner()).call{value: address(this).balance}("");
+        require(sent, "NFT withdraw tx has failed");
+    }
+
+    
+
 
 }
