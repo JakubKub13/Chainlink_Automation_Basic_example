@@ -255,6 +255,10 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         _fulfillRandomnessForMetadata(randomWords[0]);
     }
 
+    function checkUpkeep(bytes calldata) external view override returns (bool upkeepNeeded, bytes memory) {
+        upkeepNeeded = !revealInProgress && shouldReveal();
+    }
+
 
 
 }
