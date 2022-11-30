@@ -259,6 +259,10 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         upkeepNeeded = !revealInProgress && shouldReveal();
     }
 
+    function performUpkeep(bytes calldata) external override {
+        revealPendingMetadata();
+    }
+
 
 
 }
