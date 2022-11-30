@@ -195,6 +195,15 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         return string(abi.encodePacked(baseURL, svgBase64Encoded));
     }
 
+    function _substring(string memory str, uint256 startIndex, uint256 endIndex) internal pure returns (string memory) {
+        bytes memory strBytes = bytes(str);
+        bytes memory result = new bytes(endIndex - startIndex);
+        for(uint256 i = startIndex; i < endIndex; i++) {
+            result[i - startIndex] = strBytes[i];
+        }
+        return string(result);
+    }
+
 
 
 }
