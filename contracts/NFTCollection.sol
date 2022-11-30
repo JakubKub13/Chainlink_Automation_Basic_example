@@ -20,10 +20,10 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
     uint256 private immutable MAX_SUPPLY;
     uint256 private immutable MINT_COST;
 
-    uint256 private revealedCount;
+    uint256 private s_revealedCount;
     uint256 private revealedBatchSize;
     uint256 private revealInterval;
-    uint256 private lastRevealed = block.timestamp;
+    uint256 private s_lastRevealed = block.timestamp;
     bool private revealInProgress;
     Metadata[] private metadatas;
 
@@ -81,6 +81,31 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         string memory svg = _generateSVG(randomness, metadataCleared);
         string memory svgEncoded = _svgToImageURI(svg);
         return _formatTokenURI(svgEncoded);
+    }
+
+    function revealedCount() external view override returns (uint256) {
+        return s_revealedCount;
+    }
+
+    function lastRevealed() external view override returns (uint256) {
+        return s_lastRevealed;
+    }
+
+    function batchSize() external view override returns (uint256) {
+        return revealedBatchSize;
+    }
+
+    function getInterval() external view override returns (uint256) {
+        return revealInterval;
+    }
+
+    function getBatchCount() external view returns (uint256) {
+        return metadatas.length;
+    }
+
+    function batchDetails(uint256 index) external view returns (uint256, uint256, uint256) {
+        Metadata memory batch = metadatas[index];
+        return (batch.startIndex, batch.endIndex, batch.entropy);
     }
 
 
