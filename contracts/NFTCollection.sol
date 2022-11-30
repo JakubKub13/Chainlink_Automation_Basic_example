@@ -60,6 +60,15 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         revealInterval = _revealInterval;
     }
 
-    
+    function mint(uint256 _amount) external payable override {
+        uint256 TotalSupply = totalSupply();
+        require(_amount != 0, "NFT: Invalid amount");
+        require(TotalSupply + _amount < MAX_SUPPLY, "NFT: Max supply reached");
+        require(msg.value > MINT_COST * _amount, "NFT: Insufficient funds");
+        for(uint256 i = 1; i <= _amount; i++) {
+            _safeMint(msg.sender, TotalSupply + i);
+        }
+    }
+
 
 }
