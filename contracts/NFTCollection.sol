@@ -220,6 +220,20 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         return(batchSizeCriteria || intervalCriteria);
     }
 
+    function revealPendingMetadata() public override returns (uint256 requestId) {
+        require(!revealInProgress, "NFT: Reveal in progress");
+        require(shouldReveal(), "NFT: Reveal criteria not met");
+        requestId = VRF_COORDINATOR_V2.requestRandomWords(
+            VRF_GAS_LANE,
+            VRF_SUBSCRIPTION_ID,
+            VRF_REQUEST_CONFIRMATIONS,
+            VRF_CALLBACK_GAS_LIMIT,
+            VRF_NUM_WORDS
+        );
+        revealInProgress = true;
+        emit BatchRevealReqested(requestId);
+    }
+
 
 
 }
