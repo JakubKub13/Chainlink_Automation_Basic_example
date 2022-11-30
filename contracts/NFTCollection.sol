@@ -75,7 +75,14 @@ contract NFTCollection is INFTCollection, Ownable, ERC721Enumerable, VRFConsumer
         require(sent, "NFT withdraw tx has failed");
     }
 
-    
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        require(_exists(tokenId), "NFT: Token Id does not exist");
+        (uint256 randomness, bool metadataCleared) = _getTokenRandomness(tokenId);
+        string memory svg = _generateSVG(randomness, metadataCleared);
+        string memory svgEncoded = _svgToImageURI(svg);
+        return _formatTokenURI(svgEncoded);
+    }
+
 
 
 }
