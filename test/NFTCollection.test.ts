@@ -15,4 +15,11 @@ const NFT_MINT_COST: string = "0.1";
 const NFT_REVEAL_BATCH_SIZE: string = "5";
 const NFT_REVEAL_INTERVAL: string = "3600";
 
-function mint(){}
+function mint(
+    nftCollection: NFTCollection,
+    amount: BigNumberish
+  ): Promise<ContractTransaction> {
+    return nftCollection.mint(amount, {
+      value: parseEther(NFT_MINT_COST).mul(amount),
+    });
+  }
