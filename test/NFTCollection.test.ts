@@ -1,7 +1,7 @@
 import fs from "fs";
 import { ethers, network } from "hardhat";
 import { expect } from "chai";
-import { BigNumber, ContractTransaction } from "ethers";
+import { BigNumber, Contract, ContractTransaction } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { NFTCollection, VRFCoordinatorV2Mock } from "../typechain-types";
 
@@ -17,9 +17,24 @@ const NFT_REVEAL_INTERVAL: string = "3600";
 
 function mint(
     nftCollection: NFTCollection,
-    amount: BigNumberish
+    amount: BigNumber
   ): Promise<ContractTransaction> {
     return nftCollection.mint(amount, {
       value: parseEther(NFT_MINT_COST).mul(amount),
     });
   }
+
+async function revealBatch(
+    nftCollection: NFTCollection,
+    vrfCoordinatorV2Mock: VRFCoordinatorV2Mock
+): Promise<ContractTransaction> {
+    const revealTx = await nftCollection.revealPendingMetadata();
+    const { events } = await revealTx.wait();
+    const requestEvent = events?.find((e) => e.event == "BatchRevealRequested");
+    const requestId = requestEvent?.args?.requestId;
+
+    return vrfCoordinatorV2Mock.fulfillRandomWords(
+        requestId,
+        nftCollection.address
+    );
+}
