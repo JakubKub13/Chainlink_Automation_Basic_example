@@ -44,4 +44,14 @@ describe("NFTCollection", async function () {
     let vrfCoordinatorV2Mock: VRFCoordinatorV2Mock;
     let owner: SignerWithAddress;
     let user: SignerWithAddress;
+
+    beforeEach(async function () {
+        [owner, user] = await ethers.getSigners();
+        const vrfCoordinatorV2MockFactory = await ethers.getContractFactory("VRFCoordinatorV2Mock");
+        vrfCoordinatorV2Mock = await vrfCoordinatorV2MockFactory.deploy();
+        await vrfCoordinatorV2Mock.deployed()
+        const nftCollectionFactory = await ethers.getContractFactory("NFTCollection");
+        nftCollection = nftCollectionFactory.deploy();
+        await nftCollection.deployed();
+    })
 })
