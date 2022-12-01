@@ -38,3 +38,10 @@ async function revealBatch(
         nftCollection.address
     );
 }
+
+describe("NFTCollection", async function () {
+    let nftCollection: NFTCollection;
+    let vrfCoordinatorV2Mock: VRFCoordinatorV2Mock;
+    let owner: SignerWithAddress;
+    let user: SignerWithAddress;
+})
